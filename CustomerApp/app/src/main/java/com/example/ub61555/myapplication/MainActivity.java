@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         initializeActivity();
         initializeDataObjects();
         displayAllParties();
+        //comment added
 
     }
 
