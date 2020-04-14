@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Covid Info</string>
+    <string name="action_settings">Settings</string>
+    <string name="total_cases">Total Cases</string>
+    <string name="total_deaths">Total Deaths</string>
+    <string name="total_new_cases">Total New Cases</string>
+    <string name="total_recovered">Total Recovered</string>
+    <string name="action_search">Search Country</string>
+</resources>
