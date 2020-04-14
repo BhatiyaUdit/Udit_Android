@@ -35,6 +35,7 @@ public final class QueryUtils {
      * This class is only meant to hold static variables and methods, which can be accessed
      * directly from the class name QueryUtils (and an object instance of QueryUtils is not needed).
      */
+
     private QueryUtils() {
     }
 
@@ -42,11 +43,12 @@ public final class QueryUtils {
      * Return a list of {@link EarthQuakeBean} objects that has been built up from
      * parsing a JSON response.
      */
-    public static ArrayList<EarthQuakeBean> extractEarthquakes() {
+    public static ArrayList<EarthQuakeBean> extractEarthquakes(String OUTPUT_JSON) {
 
         com.example.android.quakereport.Services.GetEarthQuakeService.EarthQuakeBean earthQuakeBean = new com.example.android.quakereport.Services.GetEarthQuakeService.EarthQuakeBean();
         Gson gson = new Gson();
-        earthQuakeBean = gson.fromJson(SAMPLE_JSON_RESPONSE, com.example.android.quakereport.Services.GetEarthQuakeService.EarthQuakeBean.class);
+
+        earthQuakeBean = gson.fromJson(OUTPUT_JSON, com.example.android.quakereport.Services.GetEarthQuakeService.EarthQuakeBean.class);
 
         // Create an empty ArrayList that we can start adding earthquakes to
         ArrayList<EarthQuakeBean> earthquakes = new ArrayList<>();
