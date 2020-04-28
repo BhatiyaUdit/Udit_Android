@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,6 +31,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import loanapp.udit.com.loanapplication.Activity.HomeActivity;
+import loanapp.udit.com.loanapplication.Activity.PartyDetailActivity;
 import loanapp.udit.com.loanapplication.Activity.TestTabLayout;
 import loanapp.udit.com.loanapplication.Adaptor.CustomSearchPartyAdaptor;
 import loanapp.udit.com.loanapplication.Controller.PartyController;
@@ -61,22 +64,17 @@ public class MainActivity extends AppCompatActivity implements PartyAsyncTaskInt
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-    }
 
-    private void initializeDataObjects() {
         fab= (FloatingActionButton) findViewById(R.id.fab);
         PartyListLV = findViewById(R.id.partyList);
         srlPartySearch = findViewById(R.id.SwipeLayout);
         bar = (BottomAppBar) findViewById(R.id.bar);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               /* Snackbar.make(view, "Replace with your own action" + CommonApplicationUtil.Environment + "  "+ CommonApplicationUtil.BaseUrl, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-            }
-        });
+        partyController = new PartyController();
 
+    }
+
+    private void initializeDataObjects() {
         srlPartySearch.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements PartyAsyncTaskInt
             }
         });
 
-        partyController = new PartyController();
+
     }
 
     private void getDataFromService() {
@@ -93,6 +91,17 @@ public class MainActivity extends AppCompatActivity implements PartyAsyncTaskInt
         partyAsyncTask.execute(CommonApplicationUtil.BaseUrl+SEARCH_PARTY_URL);
     }
 
+    private void loadData(int itemClicked) {
+        ArrayList<SearchPartyBean> searchPartyList  = new ArrayList<>();
+        searchPartyList = partyController.getAllParties(itemClicked);
+        populateListAdaptor(searchPartyList);
+    }
+
+    private void loadData(String searchText, int sortByItem) {
+        ArrayList<SearchPartyBean> searchPartyList  = new ArrayList<>();
+        searchPartyList = partyController.getAllParties(searchText, sortByItem);
+        populateListAdaptor(searchPartyList);
+    }
 
 
     @Override
@@ -116,19 +125,11 @@ public class MainActivity extends AppCompatActivity implements PartyAsyncTaskInt
         return true;
     }
 
-    private void loadData(String searchText, int sortByItem) {
-        ArrayList<SearchPartyBean> searchPartyList  = new ArrayList<>();
-        searchPartyList = partyController.getAllParties(searchText, sortByItem);
-        CustomSearchPartyAdaptor adaptor = new CustomSearchPartyAdaptor(this,R.layout.party_list,searchPartyList);
-        PartyListLV.setAdapter(adaptor);
-    }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent tabactivity = new Intent(MainActivity.this.getApplicationContext(), TestTabLayout.class);
+            Intent tabactivity = new Intent(MainActivity.this.getApplicationContext(), HomeActivity.class);
             startActivity(tabactivity);
             return true;
         }
@@ -136,14 +137,6 @@ public class MainActivity extends AppCompatActivity implements PartyAsyncTaskInt
 
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    private void loadData() {
-        ArrayList<SearchPartyBean> searchPartyList  = new ArrayList<>();
-        searchPartyList = partyController.getAllParties();
-        CustomSearchPartyAdaptor adaptor = new CustomSearchPartyAdaptor(this,R.layout.party_list,searchPartyList);
-        PartyListLV.setAdapter(adaptor);
     }
 
     @Override
@@ -168,20 +161,13 @@ public class MainActivity extends AppCompatActivity implements PartyAsyncTaskInt
                 .setSingleChoiceItems(singleItems, checkedItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        sortBy= which;
+                        sortBy = which;
                         loadData(sortBy);
                         dialog.dismiss();
                     }
                 })
                 .show();
 
-    }
-
-    private void loadData(int itemClicked) {
-        ArrayList<SearchPartyBean> searchPartyList  = new ArrayList<>();
-        searchPartyList = partyController.getAllParties(itemClicked);
-        CustomSearchPartyAdaptor adaptor = new CustomSearchPartyAdaptor(this,R.layout.party_list,searchPartyList);
-        PartyListLV.setAdapter(adaptor);
     }
 
     public void onFilterClick(View view) {
@@ -198,4 +184,16 @@ public class MainActivity extends AppCompatActivity implements PartyAsyncTaskInt
                 })
                 .show();
     }
+
+    private void populateListAdaptor(ArrayList<SearchPartyBean> searchPartyList ){
+        CustomSearchPartyAdaptor adaptor = new CustomSearchPartyAdaptor(this,R.layout.party_list,searchPartyList);
+        PartyListLV.setAdapter(adaptor);
+        PartyListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this.getApplicationContext(), "HAHA"+position,Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

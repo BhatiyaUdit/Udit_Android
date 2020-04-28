@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/tools">
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:minHeight="80dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,31 +16,120 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/PartyImage"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_weight="80"
+            android:layout_height="75dp"
+            android:layout_weight="70"
             android:onClick="onPartyImageClick"
+            android:paddingBottom="10sp"
             android:paddingLeft="5sp"
-            android:paddingTop="10sp"
-            android:src="@drawable/addcustomer" />
+            android:paddingTop="15sp"
+            android:src="@drawable/udit" />
 
 
-        <TextView
-            android:id="@+id/PartyDetailListItem"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="20"
-            android:paddingLeft="8sp"
-            android:paddingTop="10sp"
-            android:textAlignment="viewStart"
-            android:textAllCaps="false"
-            android:textSize="24sp" />
+            android:layout_height="80dp"
+            android:layout_weight="31"
+            >
+
+            <TextView
+                android:id="@+id/PartyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8sp"
+                android:paddingTop="14sp"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:hint="@string/app_name"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="8sp"
+                android:paddingTop="12sp"
+                android:layout_below="@id/PartyName"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="100"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="40">
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:src="@drawable/ic_kyc"
+                            android:id="@+id/KYCImageIcon"
+                            />
+                        <TextView
+                            android:id="@+id/PartyKYC"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="8sp"
+                            android:layout_toEndOf="@id/KYCImageIcon"
+                            android:textAlignment="viewStart"
+                            android:textAllCaps="false"
+                            android:textSize="14sp"
+                            android:hint="NA"
+                            android:textColor="@color/mtrl_list_item_tint"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="60">
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/ic_calender"
+                            android:id="@+id/CalenderImgicon"
+                            />
+
+                        <TextView
+                            android:id="@+id/PartyDOB"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="8sp"
+                            android:textAlignment="viewStart"
+                            android:textAllCaps="false"
+                            android:textSize="14sp"
+                            android:hint="NA"
+                            android:layout_toEndOf="@id/CalenderImgicon"
+                            android:textColor="@color/mtrl_list_item_tint"
+                            />
+
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+        <ImageView
+            android:id="@+id/syncParty"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:paddingTop="15sp"
+            app:srcCompat="@drawable/ic_sync_wait"
+            android:paddingLeft="15dp"/>
+
 
         <ImageView
             android:id="@+id/deleteParty"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:paddingTop="10sp"
+            android:paddingTop="15sp"
+            android:paddingLeft="10dp"
             app:srcCompat="@drawable/ic_delete_icon" />
 
 

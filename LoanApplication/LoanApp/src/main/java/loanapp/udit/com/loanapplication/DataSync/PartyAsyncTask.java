@@ -11,87 +11,103 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.charset.Charset;
+
+import loanapp.udit.com.loanapplication.CommonApplicationUtil;
 
 public class PartyAsyncTask extends AsyncTask<String, Void, String> {
 
     public PartyAsyncTaskInterface partyAsyncTaskInterface;
-    public static final String SEARCH_PARTY_INPUT_JSON = "{\n" +
-            "  \"InputParameters\": {\n" +
-            "    \"P_USER_ID\": \"PU00144\",\n" +
-            "    \"P_GEO_CNTRY_ID\": 9,\n" +
-            "    \"SEARCH_PARAM\": [\n" +
-            "      {\n" +
-            "        \"PRTY_ID\": null,\n" +
-            "        \"KYC\": \"%%\",\n" +
-            "        \"PRTY_CTGRY_TYP_ID\": null,\n" +
-            "        \"PARTY_FULL_NAME\": null,\n" +
-            "        \"PARTY_CONTACT\": null,\n" +
-            "        \"INDV_BIRTH_DT\": null,\n" +
-            "        \"GEO_REGN_NM\": null,\n" +
-            "        \"CREATED_BY\":null\n" +
-            "      }\n" +
-            "    ]\n" +
-            "  }\n" +
-            "}";
+    public static final String SEARCH_PARTY_INPUT_JSON = "{\"InputParameters\":{\"P_USER_ID\":\"PU00144\",\"P_GEO_CNTRY_ID\":9,\"SEARCH_PARAM\":[{\"PRTY_ID\":null,\"KYC\":\"%%\",\"PRTY_CTGRY_TYP_ID\":null,\"PARTY_FULL_NAME\":null,\"PARTY_CONTACT\":null,\"INDV_BIRTH_DT\":null,\"GEO_REGN_NM\":null,\"CREATED_BY\":\"8F01012\"}]}}";
+    HttpURLConnection urlConnection = null;
+
+    public PartyAsyncTask() {
+        CommonApplicationUtil.ErrorMessage="";
+    }
 
     @Override
     protected String doInBackground(String... strings) {
         String response = "";
         try {
             URL url = new URL(strings[0]);
-            response = getDataFromAPI(url);
+            response = getDataFromAPI(url, SEARCH_PARTY_INPUT_JSON);
         } catch (MalformedURLException e) {
+            CommonApplicationUtil.ErrorMessage="URL was malformed";
             Log.e("Error While Reading the URL ", e.toString());
         }
         return response;
     }
 
-    private String getDataFromAPI(URL url) {
+    private String getDataFromAPI(URL url, String RequestJSON) {
         String response = "";
-        HttpURLConnection urlConnection = null;
         InputStream ip = null;
         try {
-            String auth = "jd-lFs4Cm7nsAAcKsMlsp3uj6Zn" + ":" + "2e46a5130a5b19dbe1b622145cdb1d1d7ecb5cb6";
-            String authString = "Basic " + Base64.encodeToString((auth).getBytes(), Base64.NO_WRAP);
-
+            String authorization= populateBasicAuth();
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestProperty("Authorization", authString);
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Accept", "application/json");
-            urlConnection.setDoOutput(true);
-            urlConnection.setDoInput(true);
-            Log.i("REQUEST", String.valueOf(urlConnection));
+            addPropertiesToUrlConnection(authorization);
             urlConnection.connect();
+            writeJSONRequestToUrlConnection(RequestJSON);
 
-            DataOutputStream os = new DataOutputStream(urlConnection.getOutputStream());
-            os.writeBytes(SEARCH_PARTY_INPUT_JSON);
-
-            os.flush();
-            os.close();
             Log.i("STATUS", String.valueOf(urlConnection.getResponseCode()));
             Log.i("MSG", urlConnection.getResponseMessage());
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String line;
-            while ((line = br.readLine()) != null) {
-                response += line;
-            }
+            response = getResponseFromStream(urlConnection.getInputStream());
 
             Log.i("RESPONSE ", response);
+
             if (urlConnection.getResponseCode() != 200) {
                 Log.e("Error while getting response from the URL ", urlConnection.getResponseMessage());
+                CommonApplicationUtil.ErrorMessage=urlConnection.getResponseMessage();
             }
         } catch (IOException e) {
             Log.e("Error While opening the connection ", e.toString());
+            e.printStackTrace();
+            CommonApplicationUtil.ErrorMessage= "IO Exception Occured";
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
         }
-
         return response;
+    }
+
+    private String getResponseFromStream(InputStream inputStream) throws IOException {
+        StringBuilder output = new StringBuilder();
+        if (inputStream != null) {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String line = reader.readLine();
+            while (line != null) {
+                output.append(line);
+                line = reader.readLine();
+            }
+            inputStreamReader.close();
+        }
+        return output.toString();
+    }
+
+    private void writeJSONRequestToUrlConnection(String RequestJSON) throws IOException {
+        DataOutputStream os = new DataOutputStream(urlConnection.getOutputStream());
+        os.writeBytes(RequestJSON);
+        os.flush();
+        os.close();
+    }
+
+    private void addPropertiesToUrlConnection(String authorization) throws ProtocolException {
+        urlConnection.setRequestProperty("Authorization", authorization);
+        urlConnection.setRequestProperty("Content-Type", "application/json");
+        urlConnection.setRequestProperty("Accept", "application/json");
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setDoOutput(true);
+        urlConnection.setDoInput(true);
+    }
+
+    private String populateBasicAuth() {
+        String auth = CommonApplicationUtil.ServiceUser + ":" + CommonApplicationUtil.ServicePassword;
+        String authString = "Basic " + Base64.encodeToString((auth).getBytes(), Base64.NO_WRAP);
+        return authString;
     }
 
     @Override

@@ -13,8 +13,13 @@ public class PartyController {
         return partyModel.getAllParties();
     }
 
-    public void insertPartyList(ArrayList<SearchPartyBean> searchPartyList) {
+    public ArrayList<SearchPartyBean> getAllParties(String searchText,int sortBy) {
         partyModel = new PartyModel();
-        partyModel.insertPartyList(searchPartyList);
+        return partyModel.getAllParties(searchText,sortBy);
+    }
+
+    public ArrayList<SearchPartyBean> getAllParties(int sortBy) {
+        partyModel = new PartyModel();
+        return partyModel.getAllParties(sortBy);
     }
 }
