@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_party_detail"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PartyLL"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/PartyImage"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:paddingTop="15sp"
+            android:src="@drawable/udit" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/PartyLL"
+        android:padding="15dp"
+        >
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/PBDpartyName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/CustomerName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/design_default_color_on_secondary"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

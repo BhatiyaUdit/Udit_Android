@@ -10,6 +10,8 @@
     <string name="title_activity_tabbed">TabbedActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+
     <string name="title_activity_party_detail">PartyDetailActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -101,4 +103,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="Back">Back</string>
+    <string name="partyDetails">Customer Details</string>
+    <string name="CustomerName">Name</string>
 </resources>

@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/tools"
     android:minHeight="80dp">
 
     <LinearLayout
@@ -119,7 +118,7 @@
             android:layout_height="70dp"
             android:layout_weight="1"
             android:paddingTop="15sp"
-            app:srcCompat="@drawable/ic_sync_wait"
+            android:src="@drawable/ic_sync_wait"
             android:paddingLeft="15dp"/>
 
 
@@ -130,7 +129,7 @@
             android:layout_weight="1"
             android:paddingTop="15sp"
             android:paddingLeft="10dp"
-            app:srcCompat="@drawable/ic_delete_icon" />
+            android:src="@drawable/ic_delete_icon" />
 
 
     </LinearLayout>

@@ -20,6 +20,7 @@ public class PartyDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_STATEMENT);
+        db.execSQL(ALTER_TABLE_TO_ADD_DOB);
     }
 
     @Override

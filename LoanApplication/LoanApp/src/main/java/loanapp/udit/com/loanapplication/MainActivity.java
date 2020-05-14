@@ -3,18 +3,11 @@ package loanapp.udit.com.loanapplication;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
@@ -23,22 +16,18 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import loanapp.udit.com.loanapplication.Activity.HomeActivity;
 import loanapp.udit.com.loanapplication.Activity.PartyDetailActivity;
-import loanapp.udit.com.loanapplication.Activity.TestTabLayout;
 import loanapp.udit.com.loanapplication.Adaptor.CustomSearchPartyAdaptor;
 import loanapp.udit.com.loanapplication.Controller.PartyController;
 import loanapp.udit.com.loanapplication.DataSync.PartyAsyncTask;
 import loanapp.udit.com.loanapplication.DataSync.PartyAsyncTaskInterface;
-import loanapp.udit.com.loanapplication.DataSync.SearchPartyService.OutputParameter.OutputParameterSearchParty;
 import loanapp.udit.com.loanapplication.DataSync.SearchPartyService.SearchPartyDataProcessor.SearchPartyServiceDataProcessor;
 import loanapp.udit.com.loanapplication.ViewLayerBeans.SearchPartyBean;
 
@@ -129,8 +118,8 @@ public class MainActivity extends AppCompatActivity implements PartyAsyncTaskInt
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent tabactivity = new Intent(MainActivity.this.getApplicationContext(), HomeActivity.class);
-            startActivity(tabactivity);
+            Intent tabactivity = new Intent(MainActivity.this.getApplicationContext(), PartyDetailActivity.class);
+            //startActivity(tabactivity);
             return true;
         }
         if (id == R.id.SearchParty) {
